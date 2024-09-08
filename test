@@ -1,0 +1,210 @@
+python
+   def test_successful_login(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.NAME, "username").send_keys("valid_username")
+       driver.find_element(By.NAME, "password").send_keys("valid_password")
+       driver.find_element(By.ID, "submit").click()
+       assert "Dashboard" in driver.title
+
+   def test_successful_login_remember_me(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.NAME, "username").send_keys("valid_username")
+       driver.find_element(By.NAME, "password").send_keys("valid_password")
+       driver.find_element(By.ID, "remember_me").click()
+       driver.find_element(By.ID, "submit").click()
+       driver.quit()  # Закрыть браузер
+       driver = webdriver.Chrome()  # Открыть браузер снова
+       driver.get("https://b2c.passport.rt.ru/auth")
+       assert "Dashboard" in driver.title
+
+       python
+   def test_invalid_password(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.NAME, "username").send_keys("valid_username")
+       driver.find_element(By.NAME, "password").send_keys("invalid_password")
+       driver.find_element(By.ID, "submit").click()
+       assert "Invalid credentials" in driver.page_source
+
+   def test_invalid_login(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.NAME, "username").send_keys("invalid_username")
+       driver.find_element(By.NAME, "password").send_keys("valid_password")
+       driver.find_element(By.ID, "submit").click()
+       assert "Invalid credentials" in driver.page_source
+
+
+       python
+   def test_empty_fields(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.ID, "submit").click()
+       assert "Please enter username and password" in driver.page_source
+
+   def test_empty_username(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.NAME, "password").send_keys("valid_password")
+       driver.find_element(By.ID, "submit").click()
+       assert "Please enter username" in driver.page_source
+
+
+       python
+   def test_password_recovery_link(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.LINK_TEXT, "Забыли пароль?").click()
+       assert "Password recovery" in driver.title
+
+   def test_password_recovery_form(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.find_element(By.LINK_TEXT, "Забыли пароль?").click()
+       driver.find_element(By.NAME, "email").send_keys("valid_email@example.com")
+       driver.find_element(By.ID, "submit").click()
+       assert "Recovery email sent" in driver.page_source
+
+
+       python
+   def test_multiple_failed_logins(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       for _ in range(3):
+           driver.find_element(By.NAME, "username").send_keys("valid_username")
+           driver.find_element(By.NAME, "password").send_keys("invalid_password")
+           driver.find_element(By.ID, "submit").click()
+       assert "Your account is locked" in driver.page_source
+
+   def test_account_lockout(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       for _ in range(5):
+           driver.find_element(By.NAME, "username").send_keys("invalid_username")
+           driver.find_element(By.NAME, "password").send_keys("invalid_password")
+           driver.find_element(By.ID, "submit").click()
+        assert "Your account is locked" in driver.pagesource
+
+
+        python
+   def testsociallogin(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.findelement(By.LINKTEXT, "Login with Facebook").click()
+       # Здесь необходимо добавить код для обработки входа через Facebook
+       assert "Dashboard" in driver.title
+
+   def testsociallogininvalid(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.findelement(By.LINKTEXT, "Login with Facebook").click()
+       # Здесь необходимо добавить ошибочные данные для теста
+       assert "Invalid credentials" in driver.pagesource
+
+
+       python
+   def testrememberme(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.findelement(By.NAME, "username").sendkeys("validusername")
+       driver.findelement(By.NAME, "password").sendkeys("validpassword")
+       driver.findelement(By.ID, "rememberme").click()
+       driver.findelement(By.ID, "submit").click()
+       driver.quit()  # Закрыть браузер
+       driver = webdriver.Chrome()  # Открыть браузер снова
+       driver.get("https://b2c.passport.rt.ru/auth")
+       assert "Dashboard" in driver.title
+
+   def testnorememberme(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.findelement(By.NAME, "username").sendkeys("validusername")
+       driver.findelement(By.NAME, "password").sendkeys("validpassword")
+       driver.findelement(By.ID, "submit").click()
+       driver.quit()  # Закрыть браузер
+       driver = webdriver.Chrome()  # Открыть браузер снова
+       driver.get("https://b2c.passport.rt.ru/auth")
+       assert "Please log in" in driver.pagesource
+
+
+       python
+   def testloginpageelements(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       assert driver.findelement(By.NAME, "username")
+       assert driver.findelement(By.NAME, "password")
+       assert driver.findelement(By.ID, "submit")
+
+   def testloginpagetitle(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       assert "Login" in driver.title
+
+
+       python
+   def testloginbuttonfunctionality(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.findelement(By.NAME, "username").sendkeys("validusername")
+       driver.findelement(By.NAME, "password").sendkeys("validpassword")
+       driver.findelement(By.ID, "submit").click()
+       assert "Dashboard" in driver.title
+
+   def testloginbuttondisabled(driver):
+       driver.get("https://b2c.passport.rt.ru/auth")
+       driver.findelement(By.ID, "submit").click()
+       assert driver.findelement(By.ID, "submit").isenabled() is False
+
+
+       python
+    def testinvalidcharacterslogin(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        driver.findelement(By.NAME, "username").sendkeys("invalid@username")
+        driver.findelement(By.NAME, "password").sendkeys("validpassword")
+        driver.findelement(By.ID, "submit").click()
+        assert "Invalid credentials" in driver.pagesource
+
+    def testinvalidcharacterspassword(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        driver.findelement(By.NAME, "username").sendkeys("validusername")
+        driver.findelement(By.NAME, "password").sendkeys("invalid@password")
+        driver.findelement(By.ID, "submit").click()
+        assert "Invalid credentials" in driver.pagesource
+
+
+        python
+    def testcrossbrowsercompatibility(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        assert "Login" in driver.title
+
+    def test
+    cross_browser_elements(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        assert driver.find_element(By.NAME, "username")
+        assert driver.find_element(By.NAME, "password")
+
+
+        python
+    def test_mobile_version(driver):
+        driver.set_window_size(375, 667)  # Установить размер для мобильного
+        driver.get("https://b2c.passport.rt.ru/auth")
+        assert "Login" in driver.title
+
+    def test_mobile_elements(driver):
+        driver.set_window_size(375, 667)
+        driver.get("https://b2c.passport.rt.ru/auth")
+        assert driver.find_element(By.NAME, "username")
+        assert driver.find_element(By.NAME, "password")
+
+
+        python
+    def test_sql_injection_login(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        driver.find_element(By.NAME, "username").send_keys("' OR '1'='1")
+        driver.find_element(By.NAME, "password").send_keys("' OR '1'='1")
+        driver.find_element(By.ID, "submit").click()
+        assert "Invalid credentials" in driver.page_source
+
+    def test_sql_injection_password(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        driver.find_element(By.NAME, "username").send_keys("valid_username")
+        driver.find_element(By.NAME, "password").send_keys("' OR '1'='1")
+        driver.find_element(By.ID, "submit").click()
+        assert "Invalid credentials" in driver.page_source
+
+
+        python
+    def test_privacy_policy_link(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        driver.find_element(By.LINK_TEXT, "Политика конфиденциальности").click()
+        assert "Privacy Policy" in driver.title
+
+    def test_privacy_policy_content(driver):
+        driver.get("https://b2c.passport.rt.ru/auth")
+        driver.find_element(By.LINK_TEXT, "Политика конфиденциальности").click()
+        assert "Your privacy is important" in driver.page_source
